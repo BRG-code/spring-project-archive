@@ -1,4 +1,4 @@
-package com.hellokoding.auth.model;
+package com.wp.project2.model;
 
 import javax.persistence.*;
 import java.util.Set;

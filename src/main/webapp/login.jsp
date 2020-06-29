@@ -43,7 +43,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">회원가입</a></h4>
+            <h4 class="text-center"><a href="${contextPath}/signup">회원가입</a></h4>
         </div>
 
     </form>
