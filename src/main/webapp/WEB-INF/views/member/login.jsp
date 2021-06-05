@@ -28,7 +28,7 @@
             </form>
 
             <div id="formFooter">
-                <a class="underlineHover" href="/members/register">회원가입 하시겠습니까?</a>
+                <a class="underlineHover" href="/member/register">회원가입 하시겠습니까?</a>
             </div>
     </div>
 </div>

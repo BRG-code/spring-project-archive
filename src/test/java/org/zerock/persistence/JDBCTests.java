@@ -20,7 +20,7 @@ public class JDBCTests {
 	  @Test
 	  public void testConnection() {
 	    try {
-	    	Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex","book_ex");
+	    	Connection con = DriverManager.getConnection("jdbc:log4jdbc:mysql://52.141.2.25:3306/imfsystem", "imfsystem","imfsystem1234");
 	    	log.info(con);
 	    } catch (Exception e) {
 	    	fail(e.getMessage());
