@@ -80,7 +80,7 @@ public class BookController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String register(Isbn isbn) {
+    public String register(@RequestBody Isbn isbn) {
         log.info("register: " + isbn);
 
         isbnService.insertIsbn(isbn);

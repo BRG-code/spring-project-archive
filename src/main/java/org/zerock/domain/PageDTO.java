@@ -6,16 +6,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class PageDTO {
-
-  private int startPage;
+  private final int startPage;
   private int endPage;
-  private boolean prev, next;
+  private final boolean prev;
+  private final boolean next;
 
-  private int total;
-  private Criteria cri;
+  private final int total;
+  private final Criteria cri;
 
   public PageDTO(Criteria cri, int total) {
-
     this.cri = cri;
     this.total = total;
 

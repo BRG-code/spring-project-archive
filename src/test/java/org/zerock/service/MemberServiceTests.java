@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.Member;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/*-context.xml")
 @Log4j
 public class MemberServiceTests {
     @Autowired
@@ -23,17 +24,24 @@ public class MemberServiceTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Test
-//    public void checkNotValidEmailTest() {
-//        assertTrue(memberService.checkEmail("shin6949@outlook.kr"));
-//    }
-
     @Test
-    public void checkValidEmailTest() {
-        assertFalse(memberService.checkEmail(generateNotRegisteredId()));
+    public void checkNotValidEmailTest() {
+        /*
+            DB에 이미 존재하는 이메일을 요청하여, 중복여부가 제대로 나오는지 확인
+         */
+        assertFalse(memberService.checkEmail("asdf1234@test.com"));
     }
 
     @Test
+    public void checkValidEmailTest() {
+        /*
+            DB에 존재하지 않는 이메일을 요청하여, 중복여부가 제대로 나오는지 확인
+         */
+        assertTrue(memberService.checkEmail(generateNotRegisteredId()));
+    }
+
+    @Test
+    @Transactional
     public void addValidMemberTest() {
         Member member = new Member();
 
@@ -49,7 +57,7 @@ public class MemberServiceTests {
     private String generateNotRegisteredId() {
         String generatedString = RandomStringUtils.randomAlphanumeric(10) + "@test.com";
 
-        if(memberService.checkEmail(generatedString)) {
+        if(!memberService.checkEmail(generatedString)) {
             generatedString = generateNotRegisteredId();
         }
 

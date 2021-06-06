@@ -13,9 +13,6 @@
         <security:intercept-url pattern="/book/**" access="permitAll" />
         <security:intercept-url pattern="/member/**" access="permitAll" />
         <security:form-login login-page="/member/login" />
-<!--        <security:form-login login-processing-url="/authenticate" />-->
-<!--        <security:form-login username-parameter="userId"/>-->
-<!--        <security:form-login password-parameter="password"/>-->
         <security:form-login authentication-success-forward-url="/book/list"/>
         <security:logout logout-url="/logout" invalidate-session="true" />
         <security:logout logout-url="/logout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />

@@ -7,4 +7,8 @@
 		insert into isbn (isbn, name, writer, category, location)
 		values (#{isbn}, #{name}, #{writer}, #{category}, #{location})
 	</insert>
+
+	<select id="selectIsbn" resultType="org.zerock.domain.Isbn">
+		SELECT * FROM isbn;
+	</select>
 </mapper>
