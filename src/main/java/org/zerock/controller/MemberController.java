@@ -1,6 +1,7 @@
 package org.zerock.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +16,19 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public String getLoginPage() {
         return "member/login";
     }
 
     @GetMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public String getRegisterPage() {
         return "member/register";
     }
 
     @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public String insert(@ModelAttribute Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberService.addMember(member, false);

@@ -16,7 +16,7 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-			<sec:authorize access="isAuthenticated()">
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 				<button id='regBtn' type="button" class="btn btn-xs pull-right">책 추가</button>
 			</sec:authorize>
 			</div>

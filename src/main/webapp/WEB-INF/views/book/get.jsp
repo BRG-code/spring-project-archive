@@ -60,19 +60,31 @@
                    value='대출 가능' readonly="readonly">
           </c:if>
 
-        <c:if test="${fn:length(borrowLog) != 0}">
-          <label>최근 10회 대출 기록</label>
-          <textarea class="form-control" rows="10" name='borrowLog' readonly="readonly"><c:forEach items="${borrowLog}" var="log">${log.borrowTime}: ${log.memberName}&#10;</c:forEach></textarea>
-        </c:if>
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+          <c:if test="${book.isBorrowed eq true}">
+            <label>현재 대출자</label>
+            <input class="form-control" name='isBorrowed'
+                   value='<c:out value="${borrowUser.memberName}"/>' readonly="readonly">
+          </c:if>
+
+          <c:if test="${fn:length(borrowLog) != 0}">
+            <label>최근 10회 대출 기록</label>
+            <textarea class="form-control" rows="10" name='borrowLog' readonly="readonly"><c:forEach items="${borrowLog}" var="log">${log.borrowTime}: ${log.memberName}&#10;</c:forEach></textarea>
+          </c:if>
+
+          <c:if test="${book.isBorrowed eq true}">
+            <button data-oper='return' class="btn btn-default">반납처리</button>
+
+            <form id='operForm' action="/book/return" method="get">
+              <input type='hidden' id='id' name='id' value='<c:out value="${borrowUser.borrowId}"/>'>
+            </form>
+          </c:if>
+        </sec:authorize>
 
         <sec:authorize access="isAuthenticated()">
-            <c:if test="${book.isBorrowed eq true}">
-              <button data-oper='return' class="btn btn-default">반납처리</button>
-
-              <form id='operForm' action="/book/return" method="get">
-                <input type='hidden' id='id' name='id' value='<c:out value="${borrowUser.borrowId}"/>'>
-              </form>
-            </c:if>
+          <c:if test="${book.isBorrowed ne true}">
+            <button data-oper='return' id='borrow' class="btn btn-default">대출하기</button>
+          </c:if>
         </sec:authorize>
       </div>
       <!--  end panel-body -->
@@ -80,9 +92,8 @@
     </div>
     <!--  end panel-body -->
   </div>
-  <!-- end panel -->
 </div>
-<!-- /.row -->
+
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -90,6 +101,25 @@
 
     $("button[data-oper='return']").on("click", function(e){
       operForm.attr("action","/book/return").submit();
+    });
+  });
+
+
+  $("#borrow").click(function(){
+    // ajax 통신
+    $.ajax({
+      type : "GET",
+      url : "/borrow/" + <c:out value="${book.id}"/>,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Content-type","application/json");
+      },
+      success : function(data) {
+        // 응답코드 > 0000
+        alert(data.message);
+      },
+      error : function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("통신 실패.")
+      }
     });
   });
 </script>

@@ -3,7 +3,9 @@ package org.zerock.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -62,7 +64,7 @@ public class BookController {
         return "book/get";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/return")
     public String returnBook(@RequestParam("id") Long id, @ModelAttribute("cri") Criteria cri,
                              RedirectAttributes rttr) {
@@ -82,7 +84,7 @@ public class BookController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String register(Isbn isbn) {
         log.info("register: " + isbn);
 
@@ -102,7 +104,7 @@ public class BookController {
     }
 
     @GetMapping("/register")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getRegister(Model model) {
         model.addAttribute("categories", categoryService.selectCategory());
         model.addAttribute("locations", locationService.selectLocation());

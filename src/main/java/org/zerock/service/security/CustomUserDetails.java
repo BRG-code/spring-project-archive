@@ -1,10 +1,14 @@
 package org.zerock.service.security;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Data
 public class CustomUserDetails implements UserDetails {
     private long id;
     private String email;

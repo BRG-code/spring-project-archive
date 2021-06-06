@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.BorrowMapper">
+	<select id="selectBorrowByPersonAndBorrowed" resultType="org.zerock.domain.Borrow">
+		SELECT * FROM borrow
+		WHERE person = #{person} AND is_borrowed = #{isBorrowed}
+	</select>
+
+	<insert id="insertBorrow">
+		INSERT INTO borrow(book_id, person, borrow_time, is_borrowed)
+		VALUES (#{bookId}, #{person}, now(), true)
+	</insert>
+</mapper>

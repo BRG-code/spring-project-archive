@@ -29,7 +29,7 @@
 				</trim>
 			</foreach>
 		</trim>
-
+		ORDER id DESC
 		LIMIT #{from}, #{to}
 	</select>
 	
