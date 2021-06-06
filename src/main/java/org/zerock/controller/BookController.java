@@ -2,19 +2,13 @@ package org.zerock.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.*;
 import org.zerock.service.*;
-import org.zerock.service.security.CustomUserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +44,15 @@ public class BookController {
         KeepBook keepBook = keepBookService.selectKeepBookById(id);
         model.addAttribute("book", keepBook);
 
-        if(keepBook.getIsBorrowed()) {
+        boolean isBorrowed = keepBook.getIsBorrowed();
+        if(isBorrowed) {
             LogBorrow borrowUser = logBorrowService.selectLogBorrowByBookIdAndIsBorrowed(keepBook.getId(), true).get(0);
             model.addAttribute("borrowUser", borrowUser);
         }
 
         List<LogBorrow> logBorrows = logBorrowService.selectLogBorrowByBookIdAndIsBorrowed(keepBook.getId(), false);
         model.addAttribute("borrowLog", logBorrows);
-        if (logBorrows.size() != 0) {
+        if (!logBorrows.isEmpty()) {
             model.addAttribute("borrowLog", logBorrows);
         }
 

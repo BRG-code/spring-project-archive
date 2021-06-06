@@ -35,9 +35,10 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
+    @PostMapping(value = "/emailCheck")
     @ResponseBody
-    public String emailCheck(Member member) throws Exception {
+    @PreAuthorize("isAnonymous()")
+    public String emailCheck(Member member) {
         boolean result = memberService.checkEmail(member.getEmail());
 
         if(result) {

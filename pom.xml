@@ -233,6 +233,7 @@
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+					<encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 		     <!-- 테스트 실패시에도 mvn 커맨드가 실패 처리되지 않도록 설정 -->

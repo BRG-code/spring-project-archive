@@ -22,7 +22,7 @@ public class BorrowServiceImpl implements BorrowService {
         log.info(borrows);
 
         // 현재 유효한 대출 기록이 존재하면, True (대출 불가능)
-        return borrows.size() != 0;
+        return !borrows.isEmpty();
     }
 
     @Override
