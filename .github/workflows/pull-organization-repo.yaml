@@ -12,20 +12,25 @@ jobs:
     steps:
       - name: Set Git Credential
         run: |
+          git config --global user.email ${GIT_EMAIL}
+          git config --global user.name ${GIT_NAME}
           git config --global credential.helper store
           echo ${GIT_ACCESS_TOKEN} > ~/.git-credentials
         env:
           GIT_ACCESS_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
+          GIT_NAME: ${{ secrets.GIT_NAME }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
 
       - name: Clone Organzation Repository
-        run: git clone ${ORGANZATION_REPO_URL}
+        run: |
+          git clone ${ORGANZATION_REPO_URL}
         env:
           ORGANZATION_REPO_URL: ${{ secrets.ORGANZATION_REPO_URL }}
 
       - name: Pull Commit From Original Repo
         run: |
           cd spring-project-archive
-          git subtree pull --prefix ${{ secrets.SUBTREE_PREFIX }} ${{ secrets.ORIGINAL_REPO_URL }} master      
+          git subtree pull --prefix ${{ secrets.SUBTREE_PREFIX }} ${{ secrets.ORIGINAL_REPO_URL }} master
         env:
           ORIGINAL_REPO_URL: ${{ secrets.ORIGINAL_REPO_URL }}
           SUBTREE_PREFIX: ${{ secrets.SUBTREE_PREFIX }}
