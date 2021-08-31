@@ -29,12 +29,16 @@ jobs:
 
       - name: Pull Commit From Original Repo
         run: |
-          cd spring-project-archive
+          cd ${ORGANZATION_REPO_NAME}
           git subtree pull --prefix ${{ secrets.SUBTREE_PREFIX }} ${{ secrets.ORIGINAL_REPO_URL }} master
         env:
           ORIGINAL_REPO_URL: ${{ secrets.ORIGINAL_REPO_URL }}
           SUBTREE_PREFIX: ${{ secrets.SUBTREE_PREFIX }}
+          ORGANZATION_REPO_NAME: ${{ secrets.ORGANZATION_REPO_NAME }}
 
       - name: Push To Organzation Repository
         run: |
+          cd ${ORGANZATION_REPO_NAME}
           git push origin master
+        env:
+          ORGANZATION_REPO_NAME: ${{ secrets.ORGANZATION_REPO_NAME }}
