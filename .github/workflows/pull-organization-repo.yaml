@@ -1,0 +1,34 @@
+name: Reflect To Organzation Repo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  reflect:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Set Git Credential
+        run: |
+          git config --global credential.helper store
+          echo ${GIT_ACCESS_TOKEN} > ~/.git-credentials
+        env:
+          GIT_ACCESS_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
+
+      - name: Clone Organzation Repository
+        run: git clone ${ORGANZATION_REPO_URL}
+        env:
+          ORGANZATION_REPO_URL: ${{ secrets.ORGANZATION_REPO_URL }}
+
+      - name: Pull Commit From Original Repo
+        run: |
+          git subtree pull --prefix ${{ secrets.SUBTREE_PREFIX }} ${{ secrets.ORIGINAL_REPO_URL }} master
+        env:
+          ORIGINAL_REPO_URL: ${{ secrets.ORIGINAL_REPO_URL }}
+          SUBTREE_PREFIX: ${{ secrets.SUBTREE_PREFIX }}
+
+      - name: Push To Organzation Repository
+        run: |
+          git push origin master
