@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.KeepBookMapper">
+	<select id="selectKeepBook" resultType="org.zerock.domain.KeepBook">
+		select * from keep_book
+	</select>
+
+	<select id="selectKeepBookById" resultType="org.zerock.domain.KeepBook">
+  		select * from keep_book where id = #{id} LIMIT 1
+	</select>
+
+	<select id="selectKeepBookWithPaging" resultType="org.zerock.domain.KeepBook">
+		SELECT *
+		FROM keep_book
+
+		<trim prefix="WHERE " suffix="" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="">
+					<choose>
+						<when test="type == 'T'.toString()">
+							name like CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="type == 'I'.toString()">
+							isbn like CONCAT('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		ORDER BY id DESC
+		LIMIT #{from}, #{to}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from keep_book
+	</select>
+</mapper>

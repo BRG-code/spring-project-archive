@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.LogBorrowMapper">
+	<select id="selectLogBorrowByBookIdAndIsBorrowed" resultType="org.zerock.domain.LogBorrow">
+		SELECT *
+		FROM log_borrow
+		WHERE book_id = #{bookId} AND is_borrowed = #{isBorrowed}
+		ORDER BY borrow_time DESC
+		LIMIT 10
+	</select>
+
+	<update id="updateLogBorrowToReturned">
+	    UPDATE log_borrow
+	    SET is_borrowed = 0
+	    WHERE borrow_id = #{borrowId}
+	</update>
+
+</mapper>
